@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # OLED Love Animation — Retro Pixel-Art Romantic Web App
 
 A complete, responsive, romantic pixel-art animation website faithfully recreating the 12-scene sequence from the reference OLED display. The application looks and feels like a miniature retro LCD/OLED display with a deep black screen, metallic enclosure with corner mounting screws, electric cyan inner glowing border, monochrome white pixel art, nighttime city skyline, twinkling stars, crescent moon, walking lovers, embrace, particle transformation, expanding heart, and the final "I LOVE YOU" message.
@@ -130,3 +131,7 @@ git push -u origin main
 
 Aplikasi ini sudah aktif dan dapat diakses langsung oleh siapa saja di HP Android, iPhone, Tablet, maupun Laptop:
 👉 **[Buka Animasi OLED Love](https://ais-pre-jouxx72jqohnjjwr3ummpa-250258514907.asia-southeast1.run.app)**
+=======
+# Untuk-Azizah-
+Untuk Azizah ❤️ Ada animasi cinta retro OLED spesial yang dibuatkan khusus untukmu! (Dari: Mr.Wijaya)  "Untuk seseorang yang selalu spesial ❤️"
+>>>>>>> origin/main
