@@ -513,21 +513,28 @@ export const ShareModal: React.FC<ShareModalProps> = ({
             >
               <HelpCircle className="w-3.5 h-3.5" />
               {showDeploymentHelp
-                ? 'Tutup petunjuk'
-                : 'Cara Deploy ke Vercel agar Bebas Error 403 Selamanya'}
+                ? 'Tutup panduan deployment'
+                : 'Panduan Deploy ke GitHub Pages / Vercel (Bebas Error 403)'}
             </button>
 
             {showDeploymentHelp && (
-              <div className="mt-2.5 p-3 rounded-xl bg-neutral-800/80 border border-neutral-700 text-left text-xs text-neutral-300 space-y-2 animate-in fade-in duration-150">
+              <div className="mt-2.5 p-3 rounded-xl bg-neutral-800/80 border border-neutral-700 text-left text-xs text-neutral-300 space-y-2.5 animate-in fade-in duration-150">
                 <p>
-                  <strong>Mengapa Error 403 Terjadi di HP?</strong> Link berawalan <code className="text-rose-300 font-mono">-dev-</code> dilindungi akun developer Google Anda. Orang lain tidak memiliki izin akses (403).
+                  <strong>Mengapa Muncul Error 403 di HP?</strong> Link berawalan <code className="text-rose-300 font-mono">-dev-</code> adalah editor pribadi AI Studio Anda. Gunakan link berawalan <code className="text-emerald-300 font-mono">-pre-</code> di atas agar bisa dibuka oleh siapa saja tanpa akun developer.
                 </p>
-                <p>
-                  <strong>Solusi 1 (Google AI Studio):</strong> Klik tombol <strong className="text-cyan-300">Share</strong> di pojok kanan atas AI Studio. URL publik <code className="text-emerald-300 font-mono">-pre-</code> akan aktif untuk siapa saja.
-                </p>
-                <p>
-                  <strong>Solusi 2 (Deploy Gratis Vercel / Netlify):</strong> Download/export source code ini, lalu drag & drop folder <code className="text-cyan-300 font-mono">dist</code> ke Vercel atau Netlify. Masukkan domainnya di tab "Custom Domain" di atas.
-                </p>
+                <div className="p-2.5 rounded-lg bg-neutral-900 border border-neutral-800 space-y-1 font-mono text-[11px]">
+                  <div className="text-emerald-400 font-bold">🚀 Deploy ke GitHub Pages (Otomatis):</div>
+                  <div className="text-neutral-400 text-[10px]">File workflow GitHub Actions (.github/workflows/deploy.yml) sudah terpasang. Cukup hubungkan repo:</div>
+                  <code className="block text-cyan-300 select-all bg-black/60 p-2 rounded text-[10px] break-all">
+                    git remote add origin https://github.com/USERNAME/REPO.git<br/>
+                    git push -u origin main
+                  </code>
+                  <div className="text-neutral-400 text-[10px]">Di GitHub: Settings &rarr; Pages &rarr; Source: <strong>GitHub Actions</strong>. Web akan otomatis online!</div>
+                </div>
+                <div className="p-2.5 rounded-lg bg-neutral-900 border border-neutral-800 space-y-1 font-mono text-[11px]">
+                  <div className="text-cyan-400 font-bold">⚡ Deploy Instan via Vercel / Netlify:</div>
+                  <div className="text-neutral-400 text-[10px]">Drag & drop folder <code className="text-cyan-300">dist</code> langsung ke dashboard Vercel / Netlify Drop.</div>
+                </div>
               </div>
             )}
           </div>
