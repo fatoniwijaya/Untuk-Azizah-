@@ -14,6 +14,8 @@ import {
   Link as LinkIcon,
   Github,
   Video,
+  Download,
+  UploadCloud,
 } from 'lucide-react';
 import { PersonalizationData } from '../types';
 import { buildOpenGraphShareUrl } from '../utils/urlHelper';
@@ -36,8 +38,9 @@ export const ShareModal: React.FC<ShareModalProps> = ({
   const [showDeploymentHelp, setShowDeploymentHelp] = useState(false);
   const [customBaseUrl, setCustomBaseUrl] = useState('');
   const [ghUsername, setGhUsername] = useState('fatoniwijaya');
-  const [ghRepo, setGhRepo] = useState('oled-love');
-  const [urlMode, setUrlMode] = useState<'github' | 'public' | 'custom'>('github');
+  const [ghRepo, setGhRepo] = useState('Untuk-Azizah-');
+  const [netlifyUrl, setNetlifyUrl] = useState('');
+  const [urlMode, setUrlMode] = useState<'github' | 'netlify' | 'public' | 'custom'>('github');
   const [messageLanguage, setMessageLanguage] = useState<'id' | 'en'>('id');
 
   if (!isOpen) return null;
@@ -45,19 +48,33 @@ export const ShareModal: React.FC<ShareModalProps> = ({
   // Resolve base URL: ALWAYS sanitize to public shared URL (-pre-), GitHub Pages, or custom domain
   // This completely eliminates the Google 403 error on phones (Gambar 2)!
   const getPublicBase = (): string => {
-    // 1. If user is currently running this app directly on GitHub Pages:
+    // 1. If user is currently running this app directly on Netlify or custom domain:
+    if (typeof window !== 'undefined' && (window.location.hostname.includes('netlify.app') || window.location.hostname.includes('vercel.app'))) {
+      return (window.location.origin + window.location.pathname).replace(/\/+$/, '');
+    }
+
+    // 2. If user is currently running this app directly on GitHub Pages:
     if (typeof window !== 'undefined' && window.location.hostname.includes('github.io')) {
       return (window.location.origin + window.location.pathname).replace(/\/+$/, '');
     }
 
-    // 2. If GitHub Pages mode is selected:
+    // 3. If Netlify Drop mode is selected:
+    if (urlMode === 'netlify') {
+      if (netlifyUrl.trim()) {
+        const cleaned = netlifyUrl.trim().replace(/\/+$/, '');
+        return cleaned.startsWith('http') ? cleaned : `https://${cleaned}`;
+      }
+      return 'https://cinta-retro-oled.netlify.app';
+    }
+
+    // 4. If GitHub Pages mode is selected:
     if (urlMode === 'github') {
       const user = ghUsername.trim() || 'fatoniwijaya';
       const repo = ghRepo.trim() ? `/${ghRepo.trim()}` : '';
       return `https://${user}.github.io${repo}`;
     }
 
-    // 3. If Custom Domain mode is selected:
+    // 5. If Custom Domain mode is selected:
     if (urlMode === 'custom' && customBaseUrl.trim()) {
       return customBaseUrl.trim().replace(/\/+$/, '');
     }
@@ -261,11 +278,23 @@ export const ShareModal: React.FC<ShareModalProps> = ({
               </span>
             </div>
 
-            <div className="grid grid-cols-3 gap-1 p-1 bg-neutral-800/80 rounded-xl border border-neutral-700 text-[11px] sm:text-xs">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-1 p-1 bg-neutral-800/80 rounded-xl border border-neutral-700 text-[11px]">
+              <button
+                type="button"
+                onClick={() => setUrlMode('netlify')}
+                className={`py-1.5 px-2 rounded-lg font-medium transition-colors cursor-pointer text-center truncate flex items-center justify-center gap-1.5 ${
+                  urlMode === 'netlify'
+                    ? 'bg-emerald-500 text-black shadow-sm font-bold'
+                    : 'text-neutral-400 hover:text-white'
+                }`}
+              >
+                <UploadCloud className="w-3.5 h-3.5 shrink-0" />
+                <span>Netlify Drop (Instan)</span>
+              </button>
               <button
                 type="button"
                 onClick={() => setUrlMode('github')}
-                className={`py-1.5 px-1.5 rounded-lg font-medium transition-colors cursor-pointer text-center truncate flex items-center justify-center gap-1 ${
+                className={`py-1.5 px-2 rounded-lg font-medium transition-colors cursor-pointer text-center truncate flex items-center justify-center gap-1.5 ${
                   urlMode === 'github'
                     ? 'bg-cyan-500 text-black shadow-sm font-semibold'
                     : 'text-neutral-400 hover:text-white'
@@ -277,7 +306,7 @@ export const ShareModal: React.FC<ShareModalProps> = ({
               <button
                 type="button"
                 onClick={() => setUrlMode('public')}
-                className={`py-1.5 px-1.5 rounded-lg font-medium transition-colors cursor-pointer text-center truncate ${
+                className={`py-1.5 px-2 rounded-lg font-medium transition-colors cursor-pointer text-center truncate ${
                   urlMode === 'public'
                     ? 'bg-cyan-500 text-black shadow-sm font-semibold'
                     : 'text-neutral-400 hover:text-white'
@@ -288,15 +317,80 @@ export const ShareModal: React.FC<ShareModalProps> = ({
               <button
                 type="button"
                 onClick={() => setUrlMode('custom')}
-                className={`py-1.5 px-1.5 rounded-lg font-medium transition-colors cursor-pointer text-center truncate ${
+                className={`py-1.5 px-2 rounded-lg font-medium transition-colors cursor-pointer text-center truncate ${
                   urlMode === 'custom'
                     ? 'bg-cyan-500 text-black shadow-sm font-semibold'
                     : 'text-neutral-400 hover:text-white'
                 }`}
               >
-                Vercel / Netlify
+                Domain Sendiri
               </button>
             </div>
+
+            {urlMode === 'netlify' && (
+              <div className="mt-2 p-3 rounded-xl bg-gradient-to-br from-emerald-950/50 via-neutral-900 to-black border border-emerald-500/40 animate-in fade-in duration-150 space-y-2.5">
+                <div className="flex items-center justify-between">
+                  <span className="text-emerald-400 text-xs font-bold flex items-center gap-1.5">
+                    <Sparkles className="w-3.5 h-3.5" />
+                    Deploy 1-Klik Terima Beres (Tanpa Terminal / Akun)
+                  </span>
+                  <span className="text-[10px] text-emerald-300 font-mono bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/30">
+                    Bebas 403
+                  </span>
+                </div>
+
+                <div className="text-[11px] text-neutral-300 space-y-1">
+                  <div className="flex items-start gap-1.5">
+                    <span className="w-4 h-4 rounded-full bg-emerald-500/20 text-emerald-400 font-bold flex items-center justify-center text-[10px] shrink-0 mt-0.5">1</span>
+                    <span>Unduh arsip web siap pakai:</span>
+                  </div>
+                  <div className="pl-5">
+                    <a
+                      href="/dist-ready-to-deploy.zip"
+                      download="dist-ready-to-deploy.zip"
+                      className="inline-flex items-center gap-1.5 py-1.5 px-3 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-black font-bold text-xs shadow-md transition-all active:scale-95"
+                    >
+                      <Download className="w-3.5 h-3.5" />
+                      <span>Unduh dist-ready-to-deploy.zip (7.5 MB)</span>
+                    </a>
+                  </div>
+                </div>
+
+                <div className="text-[11px] text-neutral-300 space-y-1">
+                  <div className="flex items-start gap-1.5">
+                    <span className="w-4 h-4 rounded-full bg-emerald-500/20 text-emerald-400 font-bold flex items-center justify-center text-[10px] shrink-0 mt-0.5">2</span>
+                    <span>Buka Netlify Drop lalu seret/upload file zip tersebut:</span>
+                  </div>
+                  <div className="pl-5">
+                    <a
+                      href="https://app.netlify.com/drop"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 py-1.5 px-3 rounded-lg bg-neutral-800 hover:bg-neutral-700 text-cyan-300 text-xs border border-neutral-700 transition-colors"
+                    >
+                      <ExternalLink className="w-3.5 h-3.5" />
+                      <span>Buka app.netlify.com/drop</span>
+                    </a>
+                  </div>
+                </div>
+
+                <div className="text-[11px] text-neutral-300 space-y-1 pt-1 border-t border-neutral-800">
+                  <div className="flex items-start gap-1.5">
+                    <span className="w-4 h-4 rounded-full bg-emerald-500/20 text-emerald-400 font-bold flex items-center justify-center text-[10px] shrink-0 mt-0.5">3</span>
+                    <span>Tempel (paste) link Netlify yang kamu dapat di sini:</span>
+                  </div>
+                  <div className="pl-5">
+                    <input
+                      type="text"
+                      placeholder="https://kisah-cinta-azizah.netlify.app"
+                      value={netlifyUrl}
+                      onChange={(e) => setNetlifyUrl(e.target.value)}
+                      className="w-full px-2.5 py-1.5 rounded-lg bg-black/60 border border-emerald-500/40 text-xs font-mono text-emerald-300 focus:outline-none focus:border-emerald-400"
+                    />
+                  </div>
+                </div>
+              </div>
+            )}
 
             {urlMode === 'github' && (
               <div className="mt-2 p-2.5 rounded-xl bg-neutral-800/60 border border-cyan-500/30 animate-in fade-in duration-150 space-y-2">
@@ -323,8 +417,8 @@ export const ShareModal: React.FC<ShareModalProps> = ({
                   </div>
                 </div>
                 <div className="text-[10px] text-neutral-300 leading-relaxed bg-black/40 p-2 rounded-lg border border-neutral-800">
-                  <span className="text-emerald-400 font-semibold block mb-0.5">✓ Rekomendasi Utama (Bisa Dibuka di Semua HP):</span>
-                  Workflow otomatis <code className="text-cyan-300 font-mono">.github/workflows/deploy.yml</code> sudah siap di project ini. Cukup push ke GitHub & aktifkan Pages via GitHub Actions!
+                  <span className="text-emerald-400 font-semibold block mb-0.5">✓ Rekomendasi GitHub (Bisa Dibuka di Semua HP):</span>
+                  Workflow otomatis <code className="text-cyan-300 font-mono">.github/workflows/deploy.yml</code> sudah siap di project ini. Cukup hubungkan repo Anda & aktifkan GitHub Actions di tab Settings Pages!
                 </div>
               </div>
             )}
@@ -339,7 +433,7 @@ export const ShareModal: React.FC<ShareModalProps> = ({
                   className="w-full px-3.5 py-1.5 rounded-xl bg-neutral-800 border border-cyan-500/50 text-xs font-mono text-cyan-200 focus:outline-none"
                 />
                 <span className="text-[10px] text-neutral-400 block">
-                  Masukkan domain website kamu di Vercel atau Netlify.
+                  Masukkan domain website kamu di Vercel, Cloudflare, atau domain pribadi.
                 </span>
               </div>
             )}

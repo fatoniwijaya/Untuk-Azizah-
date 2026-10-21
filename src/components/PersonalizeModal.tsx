@@ -10,10 +10,10 @@ interface PersonalizeModalProps {
 }
 
 const PRESETS = [
-  'Untuk seseorang yang selalu spesial ❤️',
+  'Untuk Azizah Sayang yang selalu paling istimewa di hatiku ❤️',
   'I love you to the moon and stars 🌙✨',
   'Every pixel of my heart belongs to you 💕',
-  'Terima kasih sudah selalu ada di sisiku',
+  'Terima kasih sudah selalu ada di sisiku, Azizah Sayang ❤️',
   'My favorite story is ours 💫',
 ];
 
@@ -40,9 +40,9 @@ export const PersonalizeModal: React.FC<PersonalizeModalProps> = ({
   };
 
   const handleClear = () => {
-    setRecipient('Azizah');
+    setRecipient('Azizah Sayang ❤️');
     setSender('Mr.Wijaya');
-    setCustomMessage('Untuk seseorang yang selalu spesial ❤️');
+    setCustomMessage('Untuk Azizah Sayang yang selalu paling istimewa di hatiku ❤️');
   };
 
   return (

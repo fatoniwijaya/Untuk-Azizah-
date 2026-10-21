@@ -18,9 +18,9 @@ export function safeDecode(val: string | null): string {
 }
 
 export const DEFAULT_PERSONALIZATION: PersonalizationData = {
-  recipient: 'Azizah',
+  recipient: 'Azizah Sayang ❤️',
   sender: 'Mr.Wijaya',
-  customMessage: 'Untuk seseorang yang selalu spesial ❤️',
+  customMessage: 'Untuk Azizah Sayang yang selalu paling istimewa di hatiku ❤️',
 };
 
 /**

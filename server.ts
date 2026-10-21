@@ -22,9 +22,9 @@ function escapeHtml(str: string): string {
 
 // Generate dynamic SVG social share card
 function generateOgSvg(to: string, from: string, msg: string): string {
-  const safeTo = escapeHtml(to ? to.toUpperCase() : 'AZIZAH');
+  const safeTo = escapeHtml(to ? to.toUpperCase() : 'AZIZAH SAYANG ❤️');
   const safeFrom = escapeHtml(from ? from.toUpperCase() : 'MR.WIJAYA');
-  const safeMsg = escapeHtml(msg || 'UNTUK SESEORANG YANG SELALU SPESIAL ❤️');
+  const safeMsg = escapeHtml(msg || 'UNTUK AZIZAH SAYANG YANG SELALU PALING ISTIMEWA DI HATIKU ❤️');
 
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
   <defs>
@@ -109,9 +109,9 @@ function injectOpenGraphTags(
   html: string,
   req: Request
 ): string {
-  const to = typeof req.query.to === 'string' && req.query.to.trim() ? req.query.to.trim() : 'Azizah';
+  const to = typeof req.query.to === 'string' && req.query.to.trim() ? req.query.to.trim() : 'Azizah Sayang ❤️';
   const from = typeof req.query.from === 'string' && req.query.from.trim() ? req.query.from.trim() : 'Mr.Wijaya';
-  const msg = typeof req.query.msg === 'string' && req.query.msg.trim() ? req.query.msg.trim() : 'Untuk seseorang yang selalu spesial ❤️';
+  const msg = typeof req.query.msg === 'string' && req.query.msg.trim() ? req.query.msg.trim() : 'Untuk Azizah Sayang yang selalu paling istimewa di hatiku ❤️';
   const scene = typeof req.query.scene === 'string' ? req.query.scene.trim() : '';
 
   // Determine host and protocol
@@ -222,6 +222,32 @@ async function startServer() {
   app.get('/api/health', (_req: Request, res: Response) => {
     res.json({ status: 'ok', service: 'oled-love-server', timestamp: Date.now() });
   });
+
+  // Download endpoint for ready-to-deploy package (Netlify Drop / GitHub Pages)
+  app.get('/dist-ready-to-deploy.zip', (_req: Request, res: Response) => {
+    const filePath = path.resolve(__dirname, 'public', 'dist-ready-to-deploy.zip');
+    if (fs.existsSync(filePath)) {
+      res.setHeader('Content-Type', 'application/zip');
+      res.setHeader('Content-Disposition', 'attachment; filename="dist-ready-to-deploy.zip"');
+      res.sendFile(filePath);
+    } else {
+      res.status(404).send('Deploy ZIP not found');
+    }
+  });
+
+  app.get('/download-deploy-zip', (_req: Request, res: Response) => {
+    const filePath = path.resolve(__dirname, 'public', 'dist-ready-to-deploy.zip');
+    if (fs.existsSync(filePath)) {
+      res.setHeader('Content-Type', 'application/zip');
+      res.setHeader('Content-Disposition', 'attachment; filename="dist-ready-to-deploy.zip"');
+      res.sendFile(filePath);
+    } else {
+      res.status(404).send('Deploy ZIP not found');
+    }
+  });
+
+  // Direct access to static files in public
+  app.use(express.static(path.resolve(__dirname, 'public')));
 
   // Dedicated Landing & Share Proxy Handler
   const handleLandingPage = async (
