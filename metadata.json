@@ -1,0 +1,6 @@
+{
+  "name": "OLED Love Animation — Retro Pixel Art Romantic Story",
+  "description": "An interactive retro monochrome OLED animation recreating a 12-scene pixel-art love story with city skyline, walking characters, embrace, heart transformation, customizable romantic message, sound effects, and WhatsApp sharing.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
