@@ -103,3 +103,30 @@ Workflow `.github/workflows/deploy.yml` sudah tersedia di dalam repositori ini.
 - `Arrow Left`: Previous Scene
 - `Arrow Right`: Next Scene
 - `F`: Toggle Fullscreen
+
+---
+
+## 🚀 Panduan Deploy ke GitHub & GitHub Pages
+
+Repositori Git lokal sudah diinisialisasi dengan branch `main` dan commit lengkap.
+
+### Langkah untuk push ke akun GitHub Anda:
+1. Buka [GitHub](https://github.com) dan buat repositori baru (contoh: `oled-love-animation`).
+2. Jalankan perintah berikut di terminal Anda:
+```bash
+git remote add origin https://github.com/<USERNAME-ANDA>/oled-love-animation.git
+git branch -M main
+git push -u origin main
+```
+3. Aktifkan **GitHub Pages**:
+   - Di repositori GitHub Anda, buka tab **Settings** > **Pages**.
+   - Pada bagian **Build and deployment** > **Source**, pilih **GitHub Actions**.
+   - Workflow `.github/workflows/deploy.yml` yang sudah kami sertakan akan otomatis meng-compile dan mempublikasikan website ke:
+     `https://<USERNAME-ANDA>.github.io/oled-love-animation/`
+
+---
+
+## 🌐 Link Publik Langsung (Bisa Dibuka di Semua Device Sekarang)
+
+Aplikasi ini sudah aktif dan dapat diakses langsung oleh siapa saja di HP Android, iPhone, Tablet, maupun Laptop:
+👉 **[Buka Animasi OLED Love](https://ais-pre-jouxx72jqohnjjwr3ummpa-250258514907.asia-southeast1.run.app)**
